@@ -14,16 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
+
 from home import views
 
 urlpatterns = [
     # register index view
     path('', views.IndexView.as_view(), name='index'),
-    path('service/<str:service_name>/<str:type>', views.ServiceView.as_view(), name='service'),
 ]
 
 handler404 = 'home.views.error_404_view'
 handler500 = 'home.views.error_500_view'
-
