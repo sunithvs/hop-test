@@ -1,5 +1,5 @@
 body {
-  background-color: #000;
+  background-color: #00ffd4;
   /* color: #fff; */
 }
 
@@ -7,20 +7,7 @@ body {
   font-size: 0.9rem;
   letter-spacing: 0.05rem;
   padding: 0.75rem 1rem;
-  --bs-btn-color: #111;
-  --bs-btn-bg: #00ffda !important;
-  --bs-btn-border-color: #00ffda !important;
-  --bs-btn-hover-color: #111;
-  --bs-btn-hover-bg: #6bbdb1 !important;
-  --bs-btn-hover-border-color: #6bbdb1 !important;
-  --bs-btn-focus-shadow-rgb: 213, 214, 215;
-  --bs-btn-active-color: #111;
-  --bs-btn-active-bg: #00ffda !important;
-  --bs-btn-active-border-color: #00ffda !important;
-  --bs-btn-active-shadow: inset 0 3px 5px rgba(17, 17, 17, 0.125);
-  --bs-btn-disabled-color: #111;
-  --bs-btn-disabled-bg: #00ffda !important;
-  --bs-btn-disabled-border-color: #00ffda !important;
+  background-color: #2f89fc !important;
 }
 
 .btn-google {

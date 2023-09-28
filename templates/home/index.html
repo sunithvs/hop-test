@@ -29,37 +29,14 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-        <a class="navbar-brand" href="/">Denta<span>Care</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="oi oi-menu"></span> Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href='/' class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
-                <li class="nav-item"><a href="doctors.html" class="nav-link">Doctors</a></li>
-                <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a href="signup-or-loginpage.html" class="nav-link"><span>Signup/Login</span></a>
-                </li>
-                <li class="nav-item"><a href="adminlogin.html" class="nav-link">Admin</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<!-- END nav -->
+{% include "components/navbar.html" %}
 
 <section class="home-slider owl-carousel">
     <div class="slider-item" style="background-image: url('../static/images/bg_1.jpg');">
         <div class="overlay"></div>
         <div class="container">
             <div class="row slider-text align-items-center" data-scrollax-parent="true">
-                <div class="col-md-6 col-sm-12 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+                <div class="col-md-6 col-sm-12 " data-scrollax=" properties: { translateY: '70%' }">
                     <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Modern Dentistry in
                         a Calm and Relaxed Environment</h1>
                     <p class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Relax, this is going
@@ -78,7 +55,7 @@
         <div class="overlay"></div>
         <div class="container">
             <div class="row slider-text align-items-center" data-scrollax-parent="true">
-                <div class="col-md-6 col-sm-12 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+                <div class="col-md-6 col-sm-12 " data-scrollax=" properties: { translateY: '70%' }">
                     <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Modern Achieve Your
                         Desired Perfect Smile</h1>
                     <p class="mb-4">Relax, this is going to be so easy.The smart way to find a dentist.Get matched with
@@ -92,7 +69,13 @@
 
 <section class="ftco-intro">
     <div class="container">
+
         <div class="row no-gutters">
+            {% if error %}
+                <div style="background-color: #ff0303" class="col-md-12 text-center">
+                    <h4>{{ error }}</h4>
+                </div>
+            {% endif %}
             <div class="col-md-3 color-1 p-4">
                 <h3 class="mb-4">Emergency Cases</h3>
                 <p>Please feel free to contact to us with any medical enquiry</p>
@@ -115,18 +98,19 @@
             </div>
             <div class="col-md-6 color-3 p-4">
                 <h3 class="mb-2">Make an Appointment</h3>
-                <form action="#" class="appointment-form">
+                <form action="/" method="post" class="appointment-form">
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="select-wrap">
                                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                    <select name="" id="" class="form-control">
+                                    <select name="department" id="" class="form-control">
                                         <option value="">Department</option>
-                                        <option value="">Teeth Whitening</option>
-                                        <option value="">Teeth CLeaning</option>
-                                        <option value="">Quality Brackets</option>
-                                        <option value="">Periodontics</option>
+                                        <option value="Teeth Whitening">Teeth Whitening</option>
+                                        <option value="Teeth CLeaning">Teeth CLeaning</option>
+                                        <option value="Quality Brackets">Quality Brackets</option>
+                                        <option value="Periodontics">Periodontics</option>
                                     </select>
                                 </div>
                             </div>
@@ -134,33 +118,38 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="icon"><span class="icon-user"></span></div>
-                                <input type="text" class="form-control" id="appointment_name" placeholder="Name">
+                                <input name="name" type="text" class="form-control" id="appointment_name"
+                                       placeholder="Name">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="icon"><span class="icon-paper-plane"></span></div>
-                                <input type="text" class="form-control" id="appointment_email" placeholder="Email">
+                                <input name="email" type="text" class="form-control" id="appointment_email"
+                                       placeholder="Email">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <div class="icon"><span class="ion-ios-calendar"></span></div>
-                                <input type="text" class="form-control appointment_date" placeholder="Date">
+                                <input name="date" type="date" class="form-control appointment_date" placeholder="Date">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="icon"><span class="ion-ios-clock"></span></div>
-                                <input type="text" class="form-control appointment_time" placeholder="Time">
+                                <select name="time" id="" class="form-control">
+                                    {% for time in time_slots %}
+                                        <option value="{{ time }}">{{ time }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="icon"><span class="icon-phone2"></span></div>
-                                <input type="text" class="form-control" id="phone" placeholder="Phone">
+                                <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone">
                             </div>
                         </div>
                     </div>
@@ -174,16 +163,16 @@
     </div>
 </section>
 
-<section class="ftco-section ftco-services">
+<section id="services" class="ftco-section ftco-services">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
+            <div class="col-md-7 text-center heading-section ">
                 <h2 class="mb-2">Our Service Keeps you Smile</h2>
                 <p>We Promised to take care… and we Delivered.</p>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="col-md-3 d-flex align-self-stretch ">
                 <div class="media block-6 services d-block text-center">
                     <div class="icon d-flex justify-content-center align-items-center">
                         <span class="flaticon-tooth-1"></span>
@@ -198,7 +187,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="col-md-3 d-flex align-self-stretch ">
                 <div class="media block-6 services d-block text-center">
                     <div class="icon d-flex justify-content-center align-items-center">
                         <span class="flaticon-dental-care"></span>
@@ -214,7 +203,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="col-md-3 d-flex align-self-stretch ">
                 <div class="media block-6 services d-block text-center">
                     <div class="icon d-flex justify-content-center align-items-center">
                         <span class="flaticon-tooth-with-braces"></span>
@@ -229,7 +218,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+            <div class="col-md-3 d-flex align-self-stretch ">
                 <div class="media block-6 services d-block text-center">
                     <div class="icon d-flex justify-content-center align-items-center">
                         <span class="flaticon-tooth-1"></span>
@@ -244,20 +233,20 @@
             </div>
         </div>
     </div>
-    <div class="container-wrap mt-5">
+    <div id='about' class="container-wrap mt-5">
         <div class="row d-flex no-gutters">
             <div class="col-md-6 img" style="background-image: url(../static/images/about-2.jpg);">
             </div>
             <div class="col-md-6 d-flex">
                 <div class="about-wrap">
-                    <div class="heading-section heading-section-white mb-5 ftco-animate">
+                    <div class="heading-section heading-section-white mb-5 ">
                         <h2 class="mb-2">Dentacare with a personal touch</h2>
                         <p>To Be Widely Recognized As One Of The Worlds Leading And Most Preferred Dental Care Service
                             Provider In Asia, Especially The Middle East Region Through Unmatched Treatment Outcomes,
                             Cutting Edge Technology & Procedure Delivery Systems, And International Standards Of
                             Care.</p>
                     </div>
-                    <div class="list-services d-flex ftco-animate">
+                    <div class="list-services d-flex ">
                         <div class="icon d-flex justify-content-center align-items-center">
                             <span class="icon-check2"></span>
                         </div>
@@ -267,7 +256,7 @@
                                 experience in creating smiles.</p>
                         </div>
                     </div>
-                    <div class="list-services d-flex ftco-animate">
+                    <div class="list-services d-flex ">
                         <div class="icon d-flex justify-content-center align-items-center">
                             <span class="icon-check2"></span>
                         </div>
@@ -276,7 +265,7 @@
                             <p>We update ourselves with the global trends and innovations that occur in dentistry.</p>
                         </div>
                     </div>
-                    <div class="list-services d-flex ftco-animate">
+                    <div class="list-services d-flex ">
                         <div class="icon d-flex justify-content-center align-items-center">
                             <span class="icon-check2"></span>
                         </div>
@@ -293,10 +282,10 @@
 </section>
 
 
-<section class="ftco-section">
+<section id="doctors" class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
+            <div class="col-md-7 text-center heading-section ">
                 <h2 class="mb-3">Meet Our Experience Dentist</h2>
                 <p>We are driven by a team of not only highly experienced dental surgeons but also a staff that
                     constantly strives to offer patients the much-needed support and assistance during the treatment.
@@ -304,7 +293,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
+            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ">
                 <div class="staff">
                     <div class="img mb-4" style="background-image: url(../static/images/doc.JPG);"></div>
                     <div class="info text-center">
@@ -314,16 +303,16 @@
                             <p>Consultant Endodontist, DENTACARE Dental Hospitals
                                 Professor, Department of Endodontics, SSCDS,Kannur.</p>
                             <ul class="ftco-social">
-                                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-twitter"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-facebook"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-instagram"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-google-plus"></span></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
+            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ">
                 <div class="staff">
                     <div class="img mb-4" style="background-image: url(../static/images/doc4.JPG);"></div>
                     <div class="info text-center">
@@ -333,16 +322,16 @@
                             <p>Consultant Orthodontist, DENTACARE Dental Hospitals
                                 Professor, Department of Orthodontics, SSCDS,Kannur.</p>
                             <ul class="ftco-social">
-                                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-twitter"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-facebook"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-instagram"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-google-plus"></span></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
+            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ">
                 <div class="staff">
                     <div class="img mb-4" style="background-image: url(../static/images/doc3.JPG);"></div>
                     <div class="info text-center">
@@ -352,16 +341,16 @@
                             <p>Consultant Oral and Maxillofacial Surgeon, DENTACARE Dental Hospitals
                                 Associate Professor, Department of Oral and Maxillofacial surgery, SSCDS,Kannur.</p>
                             <ul class="ftco-social">
-                                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-twitter"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-facebook"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-instagram"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-google-plus"></span></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
+            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ">
                 <div class="staff">
                     <div class="img mb-4" style="background-image: url(../static/images/rk.JPG);"></div>
                     <div class="info text-center">
@@ -371,10 +360,10 @@
                             <p>Consultant Periodontist, DENTACARE Dental Hospitals
                                 Professor, Department of Periodontics, SSCDS, Kannur.</p>
                             <ul class="ftco-social">
-                                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                                <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-twitter"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-facebook"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-instagram"></span></a></li>
+                                <li class=""><a href="#"><span class="icon-google-plus"></span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -382,7 +371,7 @@
             </div>
         </div>
         <div class="row  mt-5 justify-conten-center">
-            <div class="col-md-8 ftco-animate">
+            <div class="col-md-8 ">
                 <p>Personalized patient care is what makes US the best dental clinic for dental implant and other
                     treatments in Town. Our care is defined by the values that all staff share and is summed up in the
                     term “Excellent Care by Working Together.”</p>
@@ -396,14 +385,14 @@
     <div class="container">
         <div class="row d-flex align-items-center">
             <div class="col-md-3 aside-stretch py-5">
-                <div class=" heading-section heading-section-white ftco-animate pr-md-4">
+                <div class=" heading-section heading-section-white  pr-md-4">
                     <h2 class="mb-3">Achievements</h2>
                     <p>2017 – Awarded as the BEST Dental Hospital by TIMES of India Health Care Acheivers 2017.</p>
                 </div>
             </div>
             <div class="col-md-9 py-5 pl-md-5">
                 <div class="row">
-                    <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+                    <div class="col-md-3 d-flex justify-content-center counter-wrap ">
                         <div class="block-18">
                             <div class="text">
                                 <strong class="number" data-number="14">0</strong>
@@ -411,7 +400,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+                    <div class="col-md-3 d-flex justify-content-center counter-wrap ">
                         <div class="block-18">
                             <div class="text">
                                 <strong class="number" data-number="450">0</strong>
@@ -419,7 +408,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+                    <div class="col-md-3 d-flex justify-content-center counter-wrap ">
                         <div class="block-18">
                             <div class="text">
                                 <strong class="number" data-number="4200">0</strong>
@@ -427,7 +416,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+                    <div class="col-md-3 d-flex justify-content-center counter-wrap ">
                         <div class="block-18">
                             <div class="text">
                                 <strong class="number" data-number="320">0</strong>
@@ -441,10 +430,10 @@
     </div>
 </section>
 
-<section class="ftco-section">
+<section id="pricing" class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
+            <div class="col-md-7 text-center heading-section ">
                 <h2 class="mb-3">Our Best Pricing</h2>
                 <p>As the leading dental clinic network in Hyderabad, we offer a wide range of payment options that make
                     quality dental care affordable for all.We make sure your bank account stays as healthy as your teeth
@@ -452,7 +441,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 ftco-animate">
+            <div class="col-md-3 ">
                 <div class="pricing-entry pb-5 text-center">
                     <div>
                         <h3 class="mb-4">Basic</h3>
@@ -468,7 +457,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3 ftco-animate">
+            <div class="col-md-3 ">
                 <div class="pricing-entry pb-5 text-center">
                     <div>
                         <h3 class="mb-4">Standard</h3>
@@ -484,7 +473,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3 ftco-animate">
+            <div class="col-md-3 ">
                 <div class="pricing-entry active pb-5 text-center">
                     <div>
                         <h3 class="mb-4">Premium</h3>
@@ -500,7 +489,7 @@
 
                 </div>
             </div>
-            <div class="col-md-3 ftco-animate">
+            <div class="col-md-3 ">
                 <div class="pricing-entry pb-5 text-center">
                     <div>
                         <h3 class="mb-4">Platinum</h3>
@@ -524,7 +513,7 @@
     <div class="parallax-img d-flex align-items-center">
         <div class="container">
             <div class="row d-flex justify-content-center">
-                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                <div class="col-md-7 text-center heading-section heading-section-white ">
                     <h2>Subcribe to our Newsletter</h2>
                     <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there
                         live the blind texts. Separated they live in</p>
@@ -547,12 +536,12 @@
 <section class="ftco-section testimony-section bg-light">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
-            <div class="col-md-7 text-center heading-section ftco-animate">
+            <div class="col-md-7 text-center heading-section ">
                 <h2 class="mb-2">Testimony</h2>
                 <span class="subheading">Our Happy Customer Says</span>
             </div>
         </div>
-        <div class="row justify-content-center ftco-animate">
+        <div class="row justify-content-center ">
             <div class="col-md-8">
                 <div class="carousel-testimony owl-carousel ftco-owl">
                     <div class="item">
@@ -657,7 +646,7 @@
 <section class="ftco-gallery">
     <div class="container-wrap">
         <div class="row no-gutters">
-            <div class="col-md-3 ftco-animate">
+            <div class="col-md-3 ">
                 <a href="doctors.html" class="gallery img d-flex align-items-center"
                    style="background-image: url(../static/images/gallery-1.jpg);">
                     <div class="icon mb-4 d-flex align-items-center justify-content-center">
@@ -665,7 +654,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-3 ftco-animate">
+            <div class="col-md-3 ">
                 <a href="services.html" class="gallery img d-flex align-items-center"
                    style="background-image: url(../static/images/gallery-2.jpg);">
                     <div class="icon mb-4 d-flex align-items-center justify-content-center">
@@ -673,7 +662,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-3 ftco-animate">
+            <div class="col-md-3 ">
                 <a href="contact.html" class="gallery img d-flex align-items-center"
                    style="background-image: url(../static/images/contact2.jpg);">
                     <div class="icon mb-4 d-flex align-items-center justify-content-center">
@@ -681,7 +670,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-3 ftco-animate">
+            <div class="col-md-3 ">
                 <a href="blog.html" class="gallery img d-flex align-items-center"
                    style="background-image: url(../static/images/blog.JPG);">
                     <div class="icon mb-4 d-flex align-items-center justify-content-center">
@@ -696,7 +685,7 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
-            <div class="col-md-7 text-center heading-section ftco-animate">
+            <div class="col-md-7 text-center heading-section ">
                 <h2 class="mb-2">Latest Blog</h2>
                 <h4>Can Any Dentist Put Braces?</h4>
                 <p><b>T</b>he straight answer is a big “NO!” Although sticking or placing braces on to a tooth is a
@@ -704,7 +693,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 ftco-animate">
+            <div class="col-md-4 ">
                 <div class="blog-entry">
                     <a href="blog-single.html" class="block-20"
                        style="background-image: url('../static/images/image_1.jpg');">
@@ -722,7 +711,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 ftco-animate">
+            <div class="col-md-4 ">
                 <div class="blog-entry" data-aos-delay="100">
                     <a href="blog-single.html" class="block-20"
                        style="background-image: url('../static/images/image_2.jpg');">
@@ -740,7 +729,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 ftco-animate">
+            <div class="col-md-4 ">
                 <div class="blog-entry" data-aos-delay="200">
                     <a href="blog-single.html" class="block-20"
                        style="background-image: url('../static/images/image_3.jpg');">
@@ -766,10 +755,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 pr-md-5 aside-stretch py-5 choose">
-                <div class="heading-section heading-section-white mb-5 ftco-animate">
+                <div class="heading-section heading-section-white mb-5 ">
                     <h2 class="mb-2">WHY CHOOSING US?</h2>
                 </div>
-                <div class="ftco-animate">
+                <div class="">
                     <p>FMS Dental Hospital is rated the best dental clinic in Hyderabad to get all your dental concerns
                         taken care of. Our senior dentists treat all your potential dental issues and are known for
                         providing personalized patient care. If beaming a bright smile is genuinely your ultimate goal,
@@ -789,10 +778,10 @@
                 </div>
             </div>
             <div class="col-md-6 py-5 pl-md-5">
-                <div class="heading-section mb-5 ftco-animate">
+                <div class="heading-section mb-5 ">
                     <h2 class="mb-2">Get a Free Quote</h2>
                 </div>
-                <form action="#" class="ftco-animate">
+                <form action="#" class="">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -832,7 +821,11 @@
     </div>
 </section>
 
-<div id="map"></div>
+<div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3921.5953208202236!2d76.19507158575611!3d10.610778962527087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba7e96ddcd4fe8b%3A0x90cf08affedb99cb!2sThrissur%20Medical%20College!5e0!3m2!1sen!2sin!4v1695912858348!5m2!1sen!2sin"
+            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
 
 <footer class="ftco-footer ftco-bg-dark ftco-section">
     <div class="container">
@@ -843,9 +836,9 @@
                     <p>2017 – Awarded as the BEST Dental Hospital by TIMES of India Health Care Acheivers 2017.</p>
                 </div>
                 <ul class="ftco-footer-social list-unstyled float-md-left float-lft ">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                    <li class=""><a href="#"><span class="icon-twitter"></span></a></li>
+                    <li class=""><a href="#"><span class="icon-facebook"></span></a></li>
+                    <li class=""><a href="#"><span class="icon-instagram"></span></a></li>
                 </ul>
             </div>
             <div class="col-md-2">

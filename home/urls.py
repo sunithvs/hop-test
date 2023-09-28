@@ -21,6 +21,9 @@ from home import views
 urlpatterns = [
     # register index view
     path('', views.IndexView.as_view(), name='index'),
+    # register contact view
+    path('contact/', views.ContactView.as_view(),
+         name='contact'),
 ]
 
 handler404 = 'home.views.error_404_view'

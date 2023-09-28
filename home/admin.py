@@ -1,13 +1,12 @@
 # register orders
-from datetime import datetime
 
-from django.contrib import admin, messages
+from django.contrib import admin
 
-from .models import  Address
+from .models import Appointment
 
 
-# @admin.register(Address)
-# class AddressAdmin(admin.ModelAdmin):
-#     list_display = ('address', 'city', 'state', 'zip_code', 'country')
-#     search_fields = ('address', 'city', 'state', 'zip_code', 'country')
-#
+# register appointments with fields,filters and search
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_filter = ['date', 'department', ]
+    search_fields = ['name']
