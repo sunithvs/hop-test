@@ -1,7 +1,7 @@
 {% extends "account/auth_base.html" %}
 {% load static %}
 {% load i18n %}
-{% load socialaccount %}
+
 {% load static %}
 
 
@@ -31,7 +31,7 @@
                             sure ?</h4>
                         <div class="d-grid">
 
-                            <form style="width: 100%" method="post" action="{% url 'account_logout' %}">
+                            <form style="width: 100%" method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
                                 {% if redirect_field_value %}
                                     <input type="hidden" name="{{ redirect_field_name }}"

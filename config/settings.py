@@ -37,15 +37,6 @@ cors_allowed_origins = ["https://localhost:8001",
 CSRF_TRUSTED_ORIGINS = ["https://localhost:8001",
                         ]
 INSTALLED_APPS = [
-    # third party apps
-    "jazzmin",
-    "rest_framework",
-    'drf_yasg',  # swagger ui
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-
     # django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -366,6 +357,6 @@ DATABASES = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_POST = 993
 EMAIL_HOST_USER = 'sunithvs2002@gmail.com'
-EMAIL_HOST_PASSWORD = 'sqwm zenv lgoj kqeu'
+EMAIL_HOST_PASSWORD = 'aaa'
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
