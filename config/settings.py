@@ -366,6 +366,6 @@ DATABASES = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_POST = 993
 EMAIL_HOST_USER = 'sunithvs2002@gmail.com'
-EMAIL_HOST_PASSWORD = 'sqwm zenv lgoj kqeu'
+EMAIL_HOST_PASSWORD = '..'
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
