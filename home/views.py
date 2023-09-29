@@ -113,3 +113,43 @@ def error_404_view(request, exception):
 
 def error_500_view(request):
     return render(request, '500.html')
+
+
+class AboutView(TemplateView):
+    template_name = 'home/about.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(
+            self.get_context_data())
+
+
+class BlogView(TemplateView):
+    template_name = 'home/blog.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(
+            self.get_context_data())
+
+
+class BlogSingleView(TemplateView):
+    template_name = 'home/blog-single.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(
+            self.get_context_data())
+
+
+class DoctorView(TemplateView):
+    template_name = 'home/doctors.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(
+            self.get_context_data())
+
+
+class ServicesView(TemplateView):
+    template_name = 'home/services.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(
+            self.get_context_data())

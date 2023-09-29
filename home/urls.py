@@ -24,6 +24,19 @@ urlpatterns = [
     # register contact view
     path('contact/', views.ContactView.as_view(),
          name='contact'),
+    # register about view
+    path('about/', views.AboutView.as_view(), name='about'),
+    # register services view
+    path('services/', views.ServicesView.as_view(),
+         name='services'),
+    # register doctors view
+    path('doctors/', views.DoctorView.as_view(),
+         name='doctors'),
+    # register blog view
+    path('blog/', views.BlogView.as_view(), name='blog'),
+    # register blog single view
+    path('blog-single/', views.BlogSingleView.as_view(),
+         name='blog-single'),
 ]
 
 handler404 = 'home.views.error_404_view'
