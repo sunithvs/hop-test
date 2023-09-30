@@ -13,15 +13,15 @@
                 <li class="nav-item"><a href="/services" class="nav-link">Services</a></li>
                 <li class="nav-item"><a href="/doctors" class="nav-link">Doctors</a></li>
                 <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
-                <li class="nav-item"><a href="/blog-single/" class="nav-link">Blog Single</a></li>
                 <li class="nav-item"><a href="/contact/" class="nav-link">Contact</a></li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item"><a href="/logout/" class="nav-link">Logout</a></li></a>
-                    <li class="nav-item"><a href="/admin/" class="nav-link">Admin</a></li>
                 {% else %}
                     <li class="nav-item">
                     <a href="/login/" class="nav-link"><span>Login</span></a>
                 {% endif %}
+                    <li class="nav-item"><a href="/admin/" class="nav-link">Admin</a></li>
+
                 </li>
             </ul>
         </div>
